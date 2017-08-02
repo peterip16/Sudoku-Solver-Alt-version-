@@ -8,7 +8,7 @@ import java.util.Scanner;
  * Use 0 for unsolved spot.
  */
 
-public class SudokuSolver {
+public class SudokuSolverAlt {
     
     //Store the global variable that are likely require to be use through out the program
     private int[][] resultSudoku; //The resulted sudoku
@@ -24,7 +24,7 @@ public class SudokuSolver {
     */
     public static void main(String args[]){
         
-        SudokuSolver sudoku = new SudokuSolver();   //Create a new sudokuSolver object
+        SudokuSolverAlt sudoku = new SudokuSolverAlt();   //Create a new sudokuSolver object
         
         sudoku.inputSudokuPuzzle();     //Ask user to input their sudoku puzzle
         /*
@@ -40,7 +40,7 @@ public class SudokuSolver {
             {0,0,9,0,0,0,0,5,4}
         };
         
-        SudokuSolver sudoku = new SudokuSolver(testSudoku1);
+        SudokuSolverAlt sudoku = new SudokuSolverAlt(testSudoku1);
         
         
         int[][] testSudoku2 = {
@@ -55,7 +55,7 @@ public class SudokuSolver {
             {0,0,0,0,0,4,1,0,2}
         };
         
-        SudokuSolver sudoku = new SudokuSolver(testSudoku2);
+        SudokuSolverAlt sudoku = new SudokuSolverAlt(testSudoku2);
         
         Test Sudoku 
         */
@@ -77,9 +77,9 @@ public class SudokuSolver {
     }
     
     /*
-    Create a SudokuSolver object for use with main. Initialize all the global variables.
+    Create a SudokuSolverAlt object for use with main. Initialize all the global variables.
     */
-    public SudokuSolver(){
+    public SudokuSolverAlt(){
         
         resultSudoku = new int[9][9];   //Make sure the array that store the result sudoku are initalized
         
@@ -96,10 +96,10 @@ public class SudokuSolver {
     }
     
     /*
-    Create a SudokuSolver object for use.
+    Create a SudokuSolverAlt object for use.
     @param sudokuPuzzle The sudoku that are meant to be solve.
     */
-    public SudokuSolver(int[][] sudokuPuzzle){
+    public SudokuSolverAlt(int[][] sudokuPuzzle){
        
         resultSudoku = sudokuPuzzle;    //Grab the sudoku that was inputed 
         initEachSpotPossibleNum();      //Initialize the matrix to keep track of all possible number in a position

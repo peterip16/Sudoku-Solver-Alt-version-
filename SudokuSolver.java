@@ -10,14 +10,27 @@ import java.util.Arrays;
 public class SudokuSolver {
     
     //Store the global variable that are likely require to be use through out the program
-    private static int[][] resultSudoku; //The resulted sudoku
-    private static boolean[][][] eachSpotPossibleNum; //Array to check whether a number is still possible in a certain spot
+    private int[][] resultSudoku; //The resulted sudoku
+    private boolean[][][] eachSpotPossibleNum; //Array to check whether a number is still possible in a certain spot
+    
+    public SudokuSolver(){
+        
+        resultSudoku = new int[9][9];   // Make sure the array that store the result sudoku are initalized
+        
+        for(int i = 0; i <= 9; i++){
+            for(int n = 0; n <= 9; n++){
+                resultSudoku[i][n] = 0;
+            }
+        }
+        
+        initEachSpotPossibleNum();  //
+    }
     
     public SudokuSolver(int[][] sudokuPuzzle){
-        resultSudoku = sudokuPuzzle;
         
-        eachSpotPossibleNum = new boolean[9][9][10];    // Make sure the array that store all possible values are initalized
-        Arrays.fill(eachSpotPossibleNum, true);     // Fill the array that store all possible with true since all values at a blank sudoku paper are valid anywhere
+        resultSudoku = sudokuPuzzle;
+        initEachSpotPossibleNum();
+        
     }
     
     /*
@@ -29,16 +42,18 @@ public class SudokuSolver {
     */
     public static void main(String args[]){
         
+    }
+    
+    public void initEachSpotPossibleNum(){
+        
         eachSpotPossibleNum = new boolean[9][9][10];    // Make sure the array that store all possible values are initalized
-        Arrays.fill(eachSpotPossibleNum, true);     // Fill the array that store all possible with true since all values at a blank sudoku paper are valid anywhere
         
-        resultSudoku = new int[9][9];   // Make sure the array that store the result sudoku are initalized
-        Arrays.fill(resultSudoku, 0);   // Fill the array that store result matrix with 0 since 
-        
-        inputSudokuPuzzle();
-        
-        if(checkValidSudokuPuzzle()){
-            
+        for(int i = 0; i <= 9; i++){    // Triple nested loop to initialize the aechSpotPossibleNum array
+            for(int n = 0; n <= 9; n++){
+                for(int t = 0; t <= 10; t++){
+                    eachSpotPossibleNum[i][n][t] = true;
+                }
+            }
         }
     }
     
@@ -54,6 +69,8 @@ public class SudokuSolver {
                 if(resultSudoku[i][n] > 9 || resultSudoku[i][n] < 0){
                     
                     System.out.println("This is not a proper sudoku puzzle. Some values are not proper values in the sudoku");
+                    
+                    return false;
                             
                 }
             }

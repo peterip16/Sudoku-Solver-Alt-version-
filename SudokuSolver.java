@@ -42,7 +42,22 @@ public class SudokuSolver {
         
         SudokuSolver sudoku = new SudokuSolver(testSudoku1);
         
-                Test sudoku puzzle
+        
+        int[][] testSudoku2 = {
+            {2,0,4,1,0,0,0,0,0},
+            {0,0,0,5,0,3,6,0,7},
+            {0,0,0,9,0,0,4,0,0},
+            {9,0,0,4,0,0,0,1,0},
+            {6,5,0,0,1,0,0,7,4},
+            {0,2,0,0,0,8,0,0,9},
+            {0,0,9,0,0,5,0,0,0},
+            {5,0,2,3,0,1,0,0,0},
+            {0,0,0,0,0,4,1,0,2}
+        };
+        
+        SudokuSolver sudoku = new SudokuSolver(testSudoku2);
+        
+        Test Sudoku 
         */
         
         //sudoku.isValidSudokuPuzzle(); Test methods
@@ -495,6 +510,10 @@ public class SudokuSolver {
     */
     public void fillInSpot(int row, int col){
         
+        if(row == 8 && col == 5){
+            printSudoku();
+        }
+        
         for(int i = 0; i < 9; i++){ //Find the only possible values that can be in this spot
             
             if(eachSpotPossibleNum[row][col][i]){ //Once the only value that can be in this spot is found
@@ -644,26 +663,26 @@ public class SudokuSolver {
                     }
                 }
                 
-                for(int val = 0; val < 9; val++){
+                for(int val = 0; val < 9; val++){ //Goes through the array that shows occurence of the possible values 
                     
-                    if(possibleValueOccures[val] == 1){
+                    if(possibleValueOccures[val] == 1){ //If there is a single spot that can only have one number appear once
                         
                         found = true;
                         
-                        for(int row = 0; row < 3; row++){
+                        for(int row = 0; row < 3; row++){ //Nested loop to find the particular spot where the values can only appear once
                             
                             for(int col = 0; col < 3; col++){
                                 
-                                if(eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][val]){
+                                if(eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][val]){ //If the spot is indeed where the value that can only appear once be
                                     
-                                    for(int i = 0; i < 9; i++){
+                                    for(int i = 0; i < 9; i++){ //Remove all possibility of other number in that spot since they are all impossible
                                         
                                         if(i != val) {
                                             eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][i] = false;
                                         }
                                     }
                                     
-                                    fillInSpot(3*gridRow+row, 3*gridCol+col);
+                                    fillInSpot(3*gridRow+row, 3*gridCol+col); //Fill in this particular spot with the value that can only be here in the 3x3 grid
                                 }
                             }
                         }

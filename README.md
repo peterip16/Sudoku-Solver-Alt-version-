@@ -21,3 +21,4 @@ Changelog:
 - Primary methods of solving sudoku is done
 - Tested program with a simple sudoku that is also in main method
 - Added method to check find spots in the sudoku grid that can only appears once in a 3x3 grid
+- Tested against very simple Sudokus and working

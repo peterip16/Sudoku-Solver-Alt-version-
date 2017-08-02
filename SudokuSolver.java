@@ -24,9 +24,10 @@ public class SudokuSolver {
     */
     public static void main(String args[]){
         
-        //SudokuSolver sudoku = new SudokuSolver();   //Create a new sudokuSolver object
+        SudokuSolver sudoku = new SudokuSolver();   //Create a new sudokuSolver object
         
-        //sudoku.inputSudokuPuzzle();     //Ask user to input their sudoku puzzle
+        sudoku.inputSudokuPuzzle();     //Ask user to input their sudoku puzzle
+        /*
         int[][] testSudoku1 = {
             {7,9,0,0,0,0,3,0,0},
             {0,0,0,0,0,6,9,0,0},
@@ -40,6 +41,9 @@ public class SudokuSolver {
         };
         
         SudokuSolver sudoku = new SudokuSolver(testSudoku1);
+        
+                Test sudoku puzzle
+        */
         
         //sudoku.isValidSudokuPuzzle(); Test methods
         //sudoku.checkRowSame(0,0); Test methods
@@ -358,6 +362,7 @@ public class SudokuSolver {
             for(int n = 0; n < 9; n++){
                 
                 if(resultSudoku[i][n] != 0) { //If there's a value in the current position, remove the probability in the same spot, row, column and 3x3 grid 
+                    
                     removeAllPossibleInSpot(i, n);
                     removeAllPossibleInRow(i, n);
                     removeAllPossibleInCol(i, n);
@@ -452,13 +457,13 @@ public class SudokuSolver {
         boolean found = true; //Variables in case the need to go back and recheck previous position
         
         while(found){ //While things were still changing
-            found = !found;
+            found = false;
             
-            for(int i = 0; i < 9; i++){ //Nested loop to check and 
+            for(int i = 0; i < 9; i++){ //Nested loop to check all position to see if there's any 
 
                 for(int n = 0; n < 9; n++){
 
-                    int possibleCount = 0;
+                    int possibleCount = 0; //Variables to count how many possible numbers it could be
                     
                     /*
                     if(i == 1 && n == 4){
@@ -467,51 +472,63 @@ public class SudokuSolver {
                     debug code
                     */
 
-                    for(int t = 0; t < 9; t++){
+                    for(int t = 0; t < 9; t++){ //Run through all of the values to count
 
                         if(eachSpotPossibleNum[i][n][t] == true){
                             possibleCount++;
                         }
                     }
 
-                    if(possibleCount == 1){
+                    if(possibleCount == 1){ //This spot can only have one single values. Fill in the spot
                         fillInSpot(i, n);
-                        found = !found;
-                    }
+                        found = true;
+                    } 
                 }
             }
+            
+            if(!found) found = findTheOnlyOneInGrid();
         }
     }
     
+    /*
+    This methods fills in the spot and remove all the posbility in the current row and column and 3x3 grid.
+    */
     public void fillInSpot(int row, int col){
         
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 9; i++){ //Find the only possible values that can be in this spot
             
-            if(eachSpotPossibleNum[row][col][i]){
+            if(eachSpotPossibleNum[row][col][i]){ //Once the only value that can be in this spot is found
                 
-                resultSudoku[row][col] = i+1;
-                eachSpotPossibleNum[row][col][i] = false;
+                resultSudoku[row][col] = i+1; //Fill in the value into this spot
+                eachSpotPossibleNum[row][col][i] = false; //Eliminate the possibilty in this spot
                 System.out.println("Row " + (row+1) + " column " + (col+1) + " has been filled in with " + (i+1) + ".");
                 
-                fillAllPossibleInRow(row, col, i);
-                fillAllPossibleInCol(row, col, i);
-                fillAllPossibleInGrid(row, col, i);
+                fillAllPossibleInRow(row, col, i); //Remove all posibility with the same value from the same row
+                fillAllPossibleInCol(row, col, i); //Remove all posibility with the same value from the same column
+                fillAllPossibleInGrid(row, col, i); //Remove all posibility with the same value from the same 3x3 grid
             }
         }
     }
     
+    /*
+    This methods fills in the spot and remove all the posbility in the current row with the same values.
+    Also check to see if after removal there are spots that can only be one possible values and fill it in.
+    */
     public void fillAllPossibleInRow(int row, int col, int val){
         
-        for(int i = 0; i < 9; i++){
+        for(int i = 0; i < 9; i++){ // A loop to run through all spots in the same row
             
+            /*
             if(i == 8 && col == 3 && val == 5){
                 System.out.println("Problem coordinate is: " + row + " " + col);
             }
+            debug code
+            */
             
             eachSpotPossibleNum[row][i][val] = false;
             int possibleValCount = 0;
         
-            for(int n = 0; n < 9; n++){
+            for(int n = 0; n < 9; n++){ //Loop to check if there's any spot in the same row that has only one possbility
                 
                 if(eachSpotPossibleNum[row][i][n]){
                     
@@ -519,13 +536,17 @@ public class SudokuSolver {
                 }
             }
             
-            if(possibleValCount == 1){
+            if(possibleValCount == 1){ //In this specific spot, only one possible value can be there so fill it in
                 
                 fillInSpot(row, i);
             }
         }
     }
     
+    /*
+    This methods fills in the spot and remove all the posbility in the current column with the same values.
+    Also check to see if after removal there are spots that can only be one possible values and fill it in.
+    */
     public void fillAllPossibleInCol(int row, int col, int val){
         
         for(int i = 0; i < 9; i++){
@@ -540,7 +561,7 @@ public class SudokuSolver {
             eachSpotPossibleNum[i][col][val] = false;
             int possibleValCount = 0;
         
-            for(int n = 0; n < 9; n++){
+            for(int n = 0; n < 9; n++){ //Loop to check if there's any spot in the same column that has only one possbility
                 
                 if(eachSpotPossibleNum[i][col][n]){
                     
@@ -548,13 +569,17 @@ public class SudokuSolver {
                 }
             }
             
-            if(possibleValCount == 1){
+            if(possibleValCount == 1){ //In this specific spot, only one possible value can be there so fill it in
                 
                 fillInSpot(i, col);
             }
         }
     }
     
+    /*
+    This methods fills in the spot and remove all the posbility in the current 3x3 grid with the same values.
+    Also check to see if after removal there are spots that can only be one possible values and fill it in.
+    */
     public void fillAllPossibleInGrid(int row, int col, int val){
         
         int gridRow = row/3; //Find which grid row it is on
@@ -564,14 +589,17 @@ public class SudokuSolver {
             
             for(int n = 3*gridCol; n < 3*gridCol + 3; n++){ //Traverse through this 3x3 grid's column
                 
+                /*
                 if(i == 8 && n == 3 && val == 5){
-                System.out.println("Problem coordinate is: " + row + " " + col);
-            }
+                    System.out.println("Problem coordinate is: " + row + " " + col);
+                }
+                debug code
+                */
                 
                 eachSpotPossibleNum[i][n][val] = false;
                 int possibleValCount = 0;
                 
-                for(int t = 0; t < 9; t++){
+                for(int t = 0; t < 9; t++){ //Check how many possibility of values in this spot
                     
                     if(eachSpotPossibleNum[i][n][t]){
                         
@@ -579,12 +607,72 @@ public class SudokuSolver {
                     }
                 }
                 
-                if(possibleValCount == 1){
+                if(possibleValCount == 1){ //In this specific spot, only one possible value can be there so fill it in
                 
                     fillInSpot(i, n);
                 }
             }
         }
+    }
+    
+    /*
+    Find the only spot in a particular 3x3 grid out of the entire grid that can only have 1 number.
+    @return Whether anything was found using this method
+    */
+    public boolean findTheOnlyOneInGrid(){
+        
+        System.out.println("Finding the special one.");
+        
+        boolean found = false; //Variable to return to see if there's any such spot found
+        
+        for(int gridRow = 0; gridRow < 3; gridRow++){ //Nested loop to check each of the 3x3 grid in the sudoku
+            
+            for(int gridCol = 0; gridCol < 3; gridCol++){
+                
+                int[] possibleValueOccures = new int[10]; //A integer array to hold all amount of occurence possible
+                
+                for(int row = 0; row < 3; row++){ //Nested loop to run through each 3x3 grid
+                    
+                    for(int col = 0; col < 3; col++){
+                        
+                        for(int val = 0; val < 9; val++)
+                            
+                            if(eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][val]){ //If a value is possible in this position, add to the amount of possible occurence
+                                
+                                possibleValueOccures[val]++;
+                        }
+                    }
+                }
+                
+                for(int val = 0; val < 9; val++){
+                    
+                    if(possibleValueOccures[val] == 1){
+                        
+                        found = true;
+                        
+                        for(int row = 0; row < 3; row++){
+                            
+                            for(int col = 0; col < 3; col++){
+                                
+                                if(eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][val]){
+                                    
+                                    for(int i = 0; i < 9; i++){
+                                        
+                                        if(i != val) {
+                                            eachSpotPossibleNum[3*gridRow+row][3*gridCol+col][i] = false;
+                                        }
+                                    }
+                                    
+                                    fillInSpot(3*gridRow+row, 3*gridCol+col);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        return found;
     }
 }
  

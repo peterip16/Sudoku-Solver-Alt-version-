@@ -14,3 +14,10 @@ Changelog:
 - Added method to check if the initial unsolved sudoku is an allowable sudoku
 - Added method to check if the sudoku is solved
  
+8/2/2017:
+- Completed the method to ask the user to input a unsolved sudoku
+- Added method to clean up the possbility with the initial sudoku
+- Added method to attempt to solve the sudoku
+- Primary methods of solving sudoku is done
+- Tested program with a simple sudoku that is also in main method
+- Added method to check find spots in the sudoku grid that can only appears once in a 3x3 grid

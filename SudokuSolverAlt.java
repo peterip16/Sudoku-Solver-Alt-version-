@@ -364,6 +364,12 @@ public class SudokuSolverAlt {
                 }
             }
         }
+        
+        if(numberUnsolvedSpot == 0){ //If there are no spot that are unsolved, it's solved.
+            
+            solved = true;
+        }
+        
         return numberUnsolvedSpot;
     }
     
